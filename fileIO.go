@@ -9,12 +9,12 @@ import (
 	"path"
 )
 
-// These vars are stored for reference to make output file
+// These vars are stored for later reference to make the output file
 var inputFile string // name of input file
 var fullPath string // path to current directory
 
-// https://golang.org/pkg/os/
-// https://stackoverflow.com/questions/8757389/reading-a-file-line-by-line-in-go
+// This function prompts the user to enter the name of an input file, and populates the variables
+// found in knapsackProblem.go.
 func getInput() (error) {
 	fmt.Println("Input file name: ")
 	fmt.Scanln(&inputFile)
@@ -48,7 +48,6 @@ func getInput() (error) {
 		return err
 	}
 
-	// https://stackoverflow.com/questions/13737745/split-a-string-on-whitespace-in-go
 	for i := 0; i<itemCount; i++ {
 		scan.Scan()
 		line := strings.Fields(scan.Text())
@@ -83,13 +82,12 @@ func getInput() (error) {
 		fmt.Println(err)
 		return err
 	}
-	// knapsack.setCapacity(capacity)
+	
 	inputCapacity = capacity
-
 	return nil
 }
 
-// output structure from https://www.linode.com/docs/guides/creating-reading-and-writing-files-in-go-a-tutorial/
+// This function access the variables needed to popluate the .sol file.
 func writeOutput(k Knapsack){
 	var totalValue int
 
@@ -103,6 +101,7 @@ func writeOutput(k Knapsack){
 
 	defer filePath.Close()
 
+	// Write names of included items at the end
 	for i := len(k.items) - 1; i>=0; i-- {
 		totalValue += k.items[i].value
 
@@ -113,5 +112,6 @@ func writeOutput(k Knapsack){
 		}
 	}
 
+	// Write total value contained in the final knapsack
 	fmt.Fprintf(filePath, "%d\n", totalValue)
 }

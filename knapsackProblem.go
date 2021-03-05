@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-/***** Variables *****/
 var items []Item // items given in input file
-var totalValue int // total value in the optimal solution
 var inputCapacity int // knapsack capcity on last line of input file
-var wg sync.WaitGroup // waitgroup variable - threads added in func main() and used in ConcurrentSolutions..go
+var wg sync.WaitGroup // waitgroup variable - threads added in func main() and used in concurrentSolutions.go
 
+//Knapsacks to be populated by the threads generated in concurrentSolutions.go
 var knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8, 
 knapsack9, knapsack10, knapsack11, knapsack12, knapsack13, knapsack14, knapsack15, knapsack16 Knapsack
 
+// A variant of the recursive approach to the knapsack problem.
 func bruteforceSolve(W int, wt []int, val []int, knapsack *Knapsack) int{
 
 	if (len(wt) == 0 || W == 0) {
@@ -50,13 +50,7 @@ func bruteforceSolve(W int, wt []int, val []int, knapsack *Knapsack) int{
 	}
 }
 
-func Max(a int, b int) int{
-	if a > b {
-		return a
-	}
-	return b
-}
-
+// After all valid knapsacks have been populated by the threads, return the knapsack with the greatest value.
 func evaluateKnapsacks(kArr []Knapsack) Knapsack{
 	var maxIndex, currMax int
 
@@ -79,7 +73,7 @@ func evaluateKnapsacks(kArr []Knapsack) Knapsack{
 }
 
 func main(){
-	inputProcess := getInput()
+	inputProcess := getInput() // parse input file - see fileIO.go
 
 	// stop program if error occurred
 	if inputProcess != nil{
@@ -94,10 +88,12 @@ func main(){
 	
 	start := time.Now();
 
+	wg.Add(16) // THREADS - can change to either 1, 2, 4, 8, or 16
 
-	wg.Add(16) // THREADS
-
+	// based on the number of threads added above, call the corresponding funtion method
 	sixteenThreadSolution(weights, values)
+
+	/*** Uncomment one of the lines below corresponding to the number of threads used. Leave all other variants disabled. ***/
 
 	// FOR 1 THREAD
 	// finalKnapsack := knapsack1
@@ -111,11 +107,9 @@ func main(){
 	finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8,
 		knapsack9, knapsack10, knapsack11, knapsack12, knapsack13, knapsack14, knapsack15, knapsack16})
 
-
-	time.Sleep(1 * time.Microsecond) // slow down program to avoid "0s" being logged - MONOTONIC CLOCK *******************************************************
+	time.Sleep(1 * time.Microsecond) // slow down program to avoid "0s" being logged
 	end := time.Now();
 	fmt.Printf("Total runtime: %s\n", end.Sub(start))
-
 
 	writeOutput(finalKnapsack)
 }

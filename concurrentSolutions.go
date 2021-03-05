@@ -1,14 +1,17 @@
 package main
+
+// Function to generate solution on one thread
 func oneThreadSolution(weights []int, values []int){
 	go func() {
 		defer wg.Done()
 		knapsack1 = Knapsack{capacity: inputCapacity}
 		bruteforceSolve(knapsack1.capacity, weights, values, &knapsack1)
 	}()
-	
+
 	wg.Wait()
 }
 
+// Function to generate solution on two threads
 func twoThreadSolution(weights []int, values []int){
 	last := len(items) - 1
 
@@ -31,6 +34,7 @@ func twoThreadSolution(weights []int, values []int){
 	wg.Wait()
 }
 
+// Function to generate solution on four threads
 func fourThreadSolution(weights []int, values []int){
 	last := len(items) - 1
 
@@ -72,6 +76,7 @@ func fourThreadSolution(weights []int, values []int){
 	wg.Wait()
 }
 
+// Function to generate solution on eight threads
 func eightThreadSolution(weights []int, values []int){
 	last := len(items) - 1
 
@@ -153,6 +158,7 @@ func eightThreadSolution(weights []int, values []int){
 	wg.Wait()	
 }
 
+// Function to generate solution on sixteen threads
 func sixteenThreadSolution(weights []int, values []int){
 	last := len(items) - 1
 
