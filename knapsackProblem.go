@@ -12,8 +12,8 @@ var totalValue int // total value in the optimal solution
 var inputCapacity int // knapsack capcity on last line of input file
 var wg sync.WaitGroup // waitgroup variable - threads added in func main() and used in ConcurrentSolutions..go
 
-var knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8 Knapsack
-
+var knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8, 
+knapsack9, knapsack10, knapsack11, knapsack12, knapsack13, knapsack14, knapsack15, knapsack16 Knapsack
 
 func bruteforceSolve(W int, wt []int, val []int, knapsack *Knapsack) int{
 
@@ -95,16 +95,21 @@ func main(){
 	start := time.Now();
 
 
-	wg.Add(8) // THREADS
+	wg.Add(16) // THREADS
 
-	eightThreadSolution(weights, values)
+	sixteenThreadSolution(weights, values)
 
+	// FOR 1 THREAD
+	// finalKnapsack := knapsack1
 	//FOR 2 THREADS
 	// finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2})
 	//FOR 4 THREADS
 	// finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2, knapsack3, knapsack4})
 	// FOR 8 THREADS
-	finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8})
+	// finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8})
+	// FOR 16 THREADS
+	finalKnapsack := evaluateKnapsacks([]Knapsack{knapsack1, knapsack2, knapsack3, knapsack4, knapsack5, knapsack6, knapsack7, knapsack8,
+		knapsack9, knapsack10, knapsack11, knapsack12, knapsack13, knapsack14, knapsack15, knapsack16})
 
 
 	time.Sleep(1 * time.Microsecond) // slow down program to avoid "0s" being logged - MONOTONIC CLOCK *******************************************************

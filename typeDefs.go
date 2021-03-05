@@ -23,7 +23,7 @@ func (k *Knapsack) removeItems(start int, end int){
 	var newList []Item
 
 	for i := 0; i<len(k.items); i++ {
-		if i >= start && i <= end{
+		if i >= start && i < end{
 			continue
 		}
 
